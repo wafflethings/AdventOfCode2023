@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdventOfCode2023.Solutions.DayThree;
+using AdventOfCode2023.Common.Numerics;
+using AdventOfCode2023.Common.TwoDimensionalArrays;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Solutions.Day3.Parts
 {
-    public class GearPart : Part
+     public class GearPart : Part
     {
         public GearPart(IEnumerable<Positional<char>> createdFrom) : base(createdFrom)
         {
@@ -27,62 +27,34 @@ namespace AdventOfCode2023.Solutions.DayThree
             get
             {
                 int product = 1;
-                int numbers = 0;
+                int count = 0;
 
-                foreach (NumericalPart npart in GearNumbers)
+                foreach (NumericalPart gearNumber in GearNumbers)
                 {
-                    product *= npart.Number;
-                    numbers++;
+                    product *= gearNumber.Number;
+                    count++;
                 }
 
-                return numbers == 2 ? product : 0;
+                return count == 2 ? product : 0;
             }
         }
 
-        // this is some of the worst code i have ever written
         public IEnumerable<NumericalPart> GearNumbers
         {
             get
             {
-                Console.WriteLine("======");
                 Positional<char> gear = CreatedFrom.First();
-
                 List<Positional<char>> alreadyFound = new();
-                Vector2Int[] combinations =
+
+                foreach (Vector2Int combination in Vector2Int.AllDirections())
                 {
-                    // all non diagonals; these must be checked first https://i.imgur.com/qk8zSoE.png
-                    new(-1, 0),
-                    new(1, 0),
-                    new(0, -1),
-                    new(0, 1),
-
-                    // all diagonals
-                    new(-1, -1),
-                    new(1, -1),
-                    new(-1, 1),
-                    new(1, 1),
-                    new(-1, -1),
-                    new(-1, 1),
-                    new(1, -1),
-                    new(1, 1),
-                };
-
-                foreach (Vector2Int combination in combinations)
-                {
-                    int x = combination.X;
-                    int y = combination.Y;
-
-                    Positional<char> start = gear.GetRelative(new Vector2Int(x, y));
+                    Positional<char> start = gear.GetRelative(new Vector2Int(combination.X, combination.Y));
 
                     if (start != null && char.IsDigit(start.Value) && !alreadyFound.Contains(start))
                     {
-                        NumericalPart np = GetAllLinked(start);
-                        if (np != null)
-                        {
-                            alreadyFound.AddRange(np.CreatedFrom);
-                            Console.WriteLine("Got number " + np.Number);
-                            yield return np;
-                        }
+                        NumericalPart allNumbers = GetAllLinked(start);
+                        alreadyFound.AddRange(allNumbers.CreatedFrom);
+                        yield return allNumbers;
                     }
                 }
             }

@@ -4,10 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Common.Numerics
 {
     public class Vector2Int
     {
+        public static IEnumerable<Vector2Int> AllDirections()
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    yield return new Vector2Int(x, y);
+                }
+            }
+        }
+
         public int X;
         public int Y;
 

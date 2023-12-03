@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions.DayTwo
+namespace AdventOfCode2023.Solutions.Day2.Types
 {
     public class ElfGame
     {

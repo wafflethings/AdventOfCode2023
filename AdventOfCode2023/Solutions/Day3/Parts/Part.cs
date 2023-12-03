@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2023.Common.TwoDimensionalArrays;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Solutions.Day3.Parts
 {
+    /// <summary>
+    /// A group of characters that make a larger chunk in a 2D array.
+    /// </summary>
     public abstract class Part
     {
         public static IEnumerable<Part> FindParts(Positional<char>[][] array)
@@ -42,11 +46,13 @@ namespace AdventOfCode2023.Solutions.DayThree
         protected Part(IEnumerable<Positional<char>> createdFrom)
         {
             CreatedFrom = createdFrom;
+            //Root=createdFrom.First();
         }
 
         protected Part(Positional<char> createdFrom)
         {
             CreatedFrom = new[] { createdFrom };
+            Root = createdFrom;
         }
 
         public abstract int Number { get; }
@@ -66,7 +72,8 @@ namespace AdventOfCode2023.Solutions.DayThree
 
         public bool AdjacentContainSymbol => AdjacentMatchCriteria(c => !char.IsDigit(c.Value) && c.Value != '.');
 
-        public IEnumerable<Positional<char>> CreatedFrom;
+        public readonly IEnumerable<Positional<char>> CreatedFrom;
+        public readonly Positional<char> Root;
 
         public IEnumerable<Positional<char>> AdjacentWithoutSelf()
         {

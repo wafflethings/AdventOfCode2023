@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2023.Common.TwoDimensionalArrays;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Solutions.Day3.Parts
 {
     public class NumericalPart : Part
     {

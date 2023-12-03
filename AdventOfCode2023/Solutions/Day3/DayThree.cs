@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AdventOfCode2023.Common.TwoDimensionalArrays;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2023.Common.Numerics;
+using AdventOfCode2023.Solutions.Day3.Parts;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Solutions.Day3
 {
     public class DayThree
     {
@@ -51,14 +54,6 @@ namespace AdventOfCode2023.Solutions.DayThree
 
         public static int AllGearRatios(IEnumerable<Part> parts)
         {
-            foreach (Part part in parts)
-            {
-                if (part.GetType() == typeof(GearPart))
-                {
-                    GearPart gp = (GearPart)part;
-                }
-            }
-
             return parts.Sum(part => part.GetType() == typeof(GearPart) ? ((GearPart)part).Ratio : 0);
         }
     }

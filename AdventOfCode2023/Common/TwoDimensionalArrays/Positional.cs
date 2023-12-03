@@ -1,11 +1,16 @@
-﻿using System;
+﻿using AdventOfCode2023.Common.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions.DayThree
+namespace AdventOfCode2023.Common.TwoDimensionalArrays
 {
+    /// <summary>
+    /// A version of T for use with 2D arrays. Similar to a linked list, where it has functions for its parent array.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Positional<T>
     {
         public Vector2Int Position { get; private init; } = new(0, 0);
@@ -38,19 +43,16 @@ namespace AdventOfCode2023.Solutions.DayThree
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                // Console.WriteLine(ex.Message);
                 return null;
             }
         }
 
         public IEnumerable<Positional<T>> GetAllAdjacent()
         {
-            for (int x = -1; x <= 1; x++)
+            foreach (Vector2Int direction in Vector2Int.AllDirections())
             {
-                for (int y = -1; y <= 1; y++)
-                {
-                    yield return GetRelative(new Vector2Int(x, y));
-                }
+                yield return GetRelative(new Vector2Int(direction.X, direction.Y));
             }
         }
 

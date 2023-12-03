@@ -1,6 +1,6 @@
-﻿using AdventOfCode2023.Solutions.DayOne;
-using AdventOfCode2023.Solutions.DayThree;
-using AdventOfCode2023.Solutions.DayTwo;
+﻿using AdventOfCode2023.Solutions.Day1;
+using AdventOfCode2023.Solutions.Day2;
+using AdventOfCode2023.Solutions.Day3;
 
 namespace AdventOfCode2023
 {
