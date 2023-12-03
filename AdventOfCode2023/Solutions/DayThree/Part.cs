@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2023.Solutions.DayThree
 {
-    public class Part
+    public abstract class Part
     {
         public static IEnumerable<Part> FindParts(Positional<char>[][] array)
         {
@@ -17,6 +17,11 @@ namespace AdventOfCode2023.Solutions.DayThree
 
                 foreach (Positional<char> character in line)
                 {
+                    if (character.Value == '*')
+                    {
+                        yield return new GearPart(character);
+                    }
+
                     if (char.IsDigit(character.Value))
                     {
                         consecutiveNumbers.Add(character);
@@ -25,7 +30,7 @@ namespace AdventOfCode2023.Solutions.DayThree
                     bool lastCharacter = characterNumber == line.Length - 1;
                     if (!char.IsDigit(character.Value) || lastCharacter)
                     {
-                        yield return new Part(consecutiveNumbers);
+                        yield return new NumericalPart(consecutiveNumbers);
                         consecutiveNumbers.Clear();
                     }
 
@@ -34,43 +39,32 @@ namespace AdventOfCode2023.Solutions.DayThree
             }
         }
 
-        public Part(IEnumerable<Positional<char>> createdFrom)
+        protected Part(IEnumerable<Positional<char>> createdFrom)
         {
             CreatedFrom = createdFrom;
         }
 
-        public int Number
+        protected Part(Positional<char> createdFrom)
         {
-            get
-            {
-                int sum = 0;
-                int multiplier = 1;
-
-                foreach (Positional<char> character in CreatedFrom.Reverse())
-                {
-                    sum += int.Parse(character.Value.ToString()) * multiplier;
-                    multiplier *= 10;
-                } 
-
-                return sum;
-            }
+            CreatedFrom = new[] { createdFrom };
         }
 
-        public bool AdjacentsContainSymbol
+        public abstract int Number { get; }
+
+        public bool AdjacentMatchCriteria(Predicate<Positional<char>> criteria)
         {
-            get
+            foreach (Positional<char> character in AdjacentWithoutSelf())
             {
-                foreach (Positional<char> character in AdjacentWithoutSelf())
+                if (character != null && criteria.Invoke(character))
                 {
-                    if (character != null && !char.IsDigit(character.Value) && character.Value != '.')
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         }
+
+        public bool AdjacentContainSymbol => AdjacentMatchCriteria(c => !char.IsDigit(c.Value) && c.Value != '.');
 
         public IEnumerable<Positional<char>> CreatedFrom;
 
@@ -86,11 +80,6 @@ namespace AdventOfCode2023.Solutions.DayThree
                     }
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return $"{Number}: {AdjacentsContainSymbol}";
         }
     }
 }

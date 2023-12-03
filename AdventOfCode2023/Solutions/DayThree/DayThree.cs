@@ -15,12 +15,8 @@ namespace AdventOfCode2023.Solutions.DayThree
             SetCharacterArray(ref Characters, input);
             IEnumerable<Part> parts = Part.FindParts(Characters);
 
-            foreach (Part part in parts)
-            {
-                // Console.WriteLine(part);
-            }
-
             yield return SumAllParts(parts).ToString();
+            yield return AllGearRatios(parts).ToString();
         }
 
         public static void SetCharacterArray(ref Positional<char>[][] array, string[] input)
@@ -50,7 +46,20 @@ namespace AdventOfCode2023.Solutions.DayThree
 
         public static int SumAllParts(IEnumerable<Part> parts)
         {
-            return parts.Sum(part => part.AdjacentsContainSymbol ? part.Number : 0);
+            return parts.Sum(part => part.AdjacentContainSymbol ? part.Number : 0);
+        }
+
+        public static int AllGearRatios(IEnumerable<Part> parts)
+        {
+            foreach (Part part in parts)
+            {
+                if (part.GetType() == typeof(GearPart))
+                {
+                    GearPart gp = (GearPart)part;
+                }
+            }
+
+            return parts.Sum(part => part.GetType() == typeof(GearPart) ? ((GearPart)part).Ratio : 0);
         }
     }
 }

@@ -18,5 +18,10 @@ namespace AdventOfCode2023.Solutions.DayThree
         }
 
         public static Vector2Int operator +(Vector2Int v1, Vector2Int v2) => new(v1.X + v2.X, v1.Y + v2.Y);
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
 }

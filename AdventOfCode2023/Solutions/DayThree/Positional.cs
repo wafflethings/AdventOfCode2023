@@ -36,8 +36,9 @@ namespace AdventOfCode2023.Solutions.DayThree
                 Vector2Int location = Position + direction;
                 return Array[location.X][location.Y];
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
