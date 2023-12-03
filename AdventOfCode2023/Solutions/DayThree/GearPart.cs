@@ -35,7 +35,7 @@ namespace AdventOfCode2023.Solutions.DayThree
                     numbers++;
                 }
 
-                return numbers <= 2 ? product : 0;
+                return numbers == 2 ? product : 0;
             }
         }
 
@@ -76,7 +76,7 @@ namespace AdventOfCode2023.Solutions.DayThree
 
                     if (start != null && char.IsDigit(start.Value) && !alreadyFound.Contains(start))
                     {
-                        NumericalPart np = GetAllLinked(start, y);
+                        NumericalPart np = GetAllLinked(start);
                         if (np != null)
                         {
                             alreadyFound.AddRange(np.CreatedFrom);
@@ -88,55 +88,26 @@ namespace AdventOfCode2023.Solutions.DayThree
             }
         }
 
-        public NumericalPart GetAllLinked(Positional<char>? start, int direction)
+        public NumericalPart GetAllLinked(Positional<char>? start)
         {
             List<Positional<char>> characters = new();
             Positional<char>? lastCharacter = start;
 
-            Positional<char> left = lastCharacter.GetRelative(new Vector2Int(0, -1));
-            Positional<char> right = lastCharacter.GetRelative(new Vector2Int(0, 1));
-
-            if ((right == null || !char.IsDigit(right.Value)) && (left != null && char.IsDigit(left.Value)))
+            while (lastCharacter != null && char.IsDigit(lastCharacter.Value))
             {
-                direction = -1;
-            }
-
-            if ((left == null || !char.IsDigit(left.Value)) && (right != null && char.IsDigit(right.Value)))
-            {
-                direction = 1;
-            }
-
-            if (direction != 0)
-            {
-                while (lastCharacter != null && char.IsDigit(lastCharacter.Value))
-                {
-                    characters.Add(lastCharacter);
-                    lastCharacter = lastCharacter.GetRelative(new Vector2Int(0, direction));
-                }
-
-                if (direction == -1)
-                {
-                    characters.Reverse();
-                }
-
-                return new NumericalPart(characters);
-            }
-            else
-            {
-                if (left != null)
-                {
-                    characters.Add(left);
-                }
-
                 characters.Add(lastCharacter);
-
-                if (right != null)
-                {
-                    characters.Add(right);
-                }
+                lastCharacter = lastCharacter.GetRelative(new Vector2Int(0, 1));
             }
 
-            return null;
+            lastCharacter = start.GetRelative(new Vector2Int(0, -1));
+
+            while (lastCharacter != null && char.IsDigit(lastCharacter.Value))
+            {
+                characters.Insert(0, lastCharacter);
+                lastCharacter = lastCharacter.GetRelative(new Vector2Int(0, -1));
+            }
+
+            return new NumericalPart(characters);
         }
     }
 }
