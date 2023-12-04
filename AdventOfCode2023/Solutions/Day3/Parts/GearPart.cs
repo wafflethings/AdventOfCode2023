@@ -60,10 +60,10 @@ namespace AdventOfCode2023.Solutions.Day3.Parts
             }
         }
 
-        public NumericalPart GetAllLinked(Positional<char>? start)
+        public NumericalPart GetAllLinked(Positional<char> start)
         {
             List<Positional<char>> characters = new();
-            Positional<char>? lastCharacter = start;
+            Positional<char> lastCharacter = start;
 
             while (lastCharacter != null && char.IsDigit(lastCharacter.Value))
             {
