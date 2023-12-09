@@ -1,9 +1,4 @@
 ﻿using AdventOfCode2023.Common.TwoDimensionalArrays;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AdventOfCode2023.Common.Numerics;
 using AdventOfCode2023.Solutions.Day3.Parts;
 

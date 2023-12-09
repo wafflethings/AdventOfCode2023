@@ -59,7 +59,7 @@ namespace AdventOfCode2023.Solutions.Day4
 
             for (int i = 0; i < Wins; i++)
             {
-                cards.Add(new ScratchCard(sourceArray[position + i + 1].Split(": ")[1], sourceArray, position + i + 1, false));
+                _cards.Add(new ScratchCard(sourceArray[position + i + 1].Split(": ")[1], sourceArray, position + i + 1, false));
             }
         }
     }
